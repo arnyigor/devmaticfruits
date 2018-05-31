@@ -1,7 +1,8 @@
-package com.devmatic.fruits
+package com.devmatic.fruits.presenter.main
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.devmatic.fruits.R
 
 class MainActivity : AppCompatActivity() {
 
