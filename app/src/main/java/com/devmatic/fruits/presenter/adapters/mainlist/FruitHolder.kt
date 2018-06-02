@@ -22,7 +22,7 @@ class FruitHolder(itemView: View) : BindableViewHolder<Fruit>(itemView), View.On
         tvWeight = itemView.findViewById(R.id.tvFruitWeight)
         tvTitle?.text = item.name
         tvColor?.text = item.color
-        tvWeight?.text = item.weight
+        tvWeight?.text = item.weight.toString()
     }
 
     override fun onClick(v: View) {

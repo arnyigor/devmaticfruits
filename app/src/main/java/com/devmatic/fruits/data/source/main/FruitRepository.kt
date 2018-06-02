@@ -11,6 +11,20 @@ import io.realm.Realm
 
 
 class FruitRepository : BaseDataRepository(), FruitRepositoryContract {
+    override fun getFruitInfo(fruit: Fruit?): String? {
+        if (fruit != null) {
+            return "Title: ${fruit.name}\n" +
+                    "Color: ${fruit.color}\n" +
+                    "Weight: ${fruit.weight}"
+        }
+        return null
+    }
+
+    override fun loadFruit(id: Int): Observable<Fruit?> {
+        val findFirst = realmDB.where(Fruit::class.java).equalTo("id", id).findFirst()
+        return Observable.fromCallable { realmDB.copyFromRealm(findFirst) }
+    }
+
     private val realmDB: Realm = Realm.getDefaultInstance()
 
     override fun closeDb() {

@@ -14,10 +14,10 @@ data class Fruit(@SerializedName("id") @PrimaryKey var id: Int? = null) : RealmO
     @SerializedName("name")
     var name: String? = null
     @SerializedName("weight")
-    var weight: String? = null
+    var weight: Double? = null
     @SerializedName("created_at")
     var createdAt: String? = null
     @SerializedName("delicious")
-    var delicious: String? = null
+    var delicious: Int? = null
 
 }
