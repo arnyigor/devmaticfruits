@@ -17,8 +17,8 @@ public class FruitAPI {
 		return ApiFactory.getInstance().createService(FruitApiService.class, BASE_URL, 15, HttpLoggingInterceptor.Level.BODY).getFruits("41IFZNHuX");
 	}
 
-	public static Observable<Fruit> getFruit(Context context, int id) {
-		return ApiFactory.getInstance().createService(FruitApiService.class, "", 15, HttpLoggingInterceptor.Level.BODY).getFruit(id);
+	public static Observable<Fruit> getFruit(long id) {
+		return ApiFactory.getInstance().createService(FruitApiService.class, BASE_URL1, 15, HttpLoggingInterceptor.Level.BODY).getFruit(id);
 	}
 
 	public static Observable<Object> apiSaveFruit(Fruit fruit) {

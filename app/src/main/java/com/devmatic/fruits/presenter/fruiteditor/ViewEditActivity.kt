@@ -4,11 +4,14 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.view.Menu
 import android.view.MenuItem
 import com.devmatic.fruits.R
 import com.devmatic.fruits.data.utils.getIntentExtra
 import com.devmatic.fruits.presenter.editfruit.EditFruitFragment
 import com.devmatic.fruits.presenter.viewfruit.ViewFruitFragment
+
+
 
 class ViewEditActivity : AppCompatActivity() {
     private var currentfragment: Fragment? = null
@@ -22,6 +25,12 @@ class ViewEditActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         selectFragment(id, edit)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

@@ -1,6 +1,7 @@
 package com.devmatic.fruits.presenter.main
 
 import android.content.Intent
+
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -14,6 +15,31 @@ import com.devmatic.fruits.presenter.fruiteditor.ViewEditActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseMvpActivity<MainContract.View, MainPresenter>(), MainContract.View, FruitHolder.FruitAdapterActionListener, View.OnClickListener {
+    override val mPresenter = MainPresenter(FruitRepository())
+
+    private var adapter: SimpleBindableAdapter<Fruit, FruitHolder>? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        rvFruitList.layoutManager = LinearLayoutManager(this)
+        adapter = SimpleBindableAdapter(this, R.layout.fruit_list_item, FruitHolder::class.java)
+        rvFruitList.adapter = adapter
+        adapter?.setActionListener(this)
+        fab.setOnClickListener(this)
+        refresh.setOnRefreshListener { mPresenter.loadFruits(true) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mPresenter.loadFruits(false)
+    }
+
+    override fun onBackPressed() {
+        mPresenter.cancelAll()
+        super.onBackPressed()
+    }
+
     override fun onItemEdit(item: Fruit) {
         val fruit = item as Fruit
         val i = Intent(this, ViewEditActivity::class.java)
@@ -32,22 +58,6 @@ class MainActivity : BaseMvpActivity<MainContract.View, MainPresenter>(), MainCo
 
     override fun viewNoData(vis: Boolean) {
         tvNoDataInfo.visibility = if (vis) View.VISIBLE else View.GONE
-    }
-
-    override val mPresenter = MainPresenter(FruitRepository())
-
-    private var adapter: SimpleBindableAdapter<Fruit, FruitHolder>? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        rvFruitList.layoutManager = LinearLayoutManager(this)
-        adapter = SimpleBindableAdapter(this, R.layout.fruit_list_item, FruitHolder::class.java)
-        rvFruitList.adapter = adapter
-        adapter?.setActionListener(this)
-        fab.setOnClickListener(this)
-        refresh.setOnRefreshListener { mPresenter.loadFruits(true) }
-        mPresenter.loadFruits(false)
     }
 
     override fun onClick(v: View) {

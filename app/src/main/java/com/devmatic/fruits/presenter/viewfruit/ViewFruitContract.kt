@@ -11,5 +11,6 @@ object ViewFruitContract {
 
     interface Presenter : BaseMvpPresenter<View> {
         fun loadFruit(id: Long?)
+        fun updateInfo()
     }
 }

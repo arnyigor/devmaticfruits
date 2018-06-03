@@ -1,5 +1,6 @@
 package com.devmatic.fruits.presenter.main
 
+import com.devmatic.fruits.data.api.getResponseError
 import com.devmatic.fruits.data.models.Fruit
 import com.devmatic.fruits.data.source.main.FruitRepository
 import com.devmatic.fruits.data.utils.Utility
@@ -37,7 +38,8 @@ class MainPresenter(private val repository: FruitRepository) : BaseMvpPresenterI
                 }, {
                     mView?.stopRefresh()
                     it.printStackTrace()
-                    mView?.toastError("Ошибка получения списка:${it.message}")
+                    val error = getResponseError(it)
+                    mView?.toastError("Ошибка получения списка:$error")
                 })
         )
     }

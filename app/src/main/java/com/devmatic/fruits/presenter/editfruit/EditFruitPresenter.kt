@@ -1,5 +1,6 @@
 package com.devmatic.fruits.presenter.editfruit
 
+import android.util.Log
 import com.devmatic.fruits.data.models.Fruit
 import com.devmatic.fruits.data.source.main.FruitRepository
 import com.devmatic.fruits.data.utils.Utility
@@ -14,6 +15,20 @@ class EditFruitPresenter(private val repository: FruitRepository) : BaseMvpPrese
         repository.closeDb()
     }
 
+    override fun removeFruit() {
+        Utility.mainThreadObservable(repository.removeFruit(fruit?.id))
+                .subscribe({
+                    Log.d(EditFruitPresenter::class.java.simpleName, "EditFruitPresenter removeFruit:${it}")
+                    if (it) {
+                        mView?.backToList()
+                    } else {
+                        mView?.toastError("Fruit not removed")
+                    }
+                }, {
+                    mView?.toastError(it.message)
+                })
+    }
+
     override fun saveFruit(name: String, color: String, weight: String, delicious: Boolean) {
         var w = 0.0
         try {
@@ -23,11 +38,21 @@ class EditFruitPresenter(private val repository: FruitRepository) : BaseMvpPrese
             return
         }
         if (fruit == null) {
-            Utility.mainThreadObservable(repository.addFruit(name, color, w, delicious))
+            Utility.mainThreadObservable(repository.addFruit(name, color, w, delicious)
+                    .flatMap { repository.uploadChanges(it) })
+                    .subscribe({
+                        mView?.backToList()
+                    }, {
+                        mView?.toastError(it.message)
+                    })
         } else {
             Utility.mainThreadObservable(repository.updateFruit(fruit!!, name, color, w, delicious))
+                    .subscribe({
+                        mView?.backToList()
+                    }, {
+                        mView?.toastError(it.message)
+                    })
         }
-        mView?.backToList()
     }
 
     override fun loadFruit(id: Long?, edit: Boolean?) {
@@ -37,6 +62,7 @@ class EditFruitPresenter(private val repository: FruitRepository) : BaseMvpPrese
             ).subscribe({
                 fruit = it
                 if (it != null) {
+                    mView?.setDelicious(it.delicious == 1)
                     mView?.setFruitName(it.name)
                     mView?.setFruitColor(it.color)
                     mView?.setFruitWeight(it.weight.toString())

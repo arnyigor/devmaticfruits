@@ -12,7 +12,7 @@ interface FruitApiService {
 
     @Headers("User-Agent: Dalvik/2.1.0 (Linux; U; Android 7.1.2; Swift 2 Build/N2G47H)")
     @GET("fruits/{id}")
-    fun getFruit(@Path("id") fruitId: Int): Observable<Fruit>
+    fun getFruit(@Path("id") fruitId: Long): Observable<Fruit>
 
     @Headers("User-Agent: Dalvik/2.1.0 (Linux; U; Android 7.1.2; Swift 2 Build/N2G47H)")
     @POST("fruits")
