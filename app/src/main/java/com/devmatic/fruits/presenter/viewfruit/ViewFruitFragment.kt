@@ -19,7 +19,7 @@ class ViewFruitFragment : BaseMvpFragment<ViewFruitContract.View, ViewFruitPrese
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val int = arguments?.getInt("id")
+        val int = arguments?.getLong("id")
         mPresenter.loadFruit(int)
     }
 

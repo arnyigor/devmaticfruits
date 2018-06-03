@@ -10,6 +10,6 @@ object ViewFruitContract {
     }
 
     interface Presenter : BaseMvpPresenter<View> {
-        fun loadFruit(id: Int?)
+        fun loadFruit(id: Long?)
     }
 }

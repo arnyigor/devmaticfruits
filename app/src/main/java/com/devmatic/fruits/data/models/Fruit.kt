@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-data class Fruit(@SerializedName("id") @PrimaryKey var id: Int? = null) : RealmObject() {
+ open class Fruit(@SerializedName("id") @PrimaryKey var id: Long? = null) : RealmObject() {
     constructor() : this(null)
 
     @SerializedName("color")

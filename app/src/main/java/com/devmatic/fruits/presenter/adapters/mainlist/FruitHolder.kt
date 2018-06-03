@@ -2,6 +2,7 @@ package com.devmatic.fruits.presenter.adapters.mainlist
 
 import android.content.Context
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.devmatic.fruits.R
 import com.devmatic.fruits.data.models.Fruit
@@ -12,6 +13,7 @@ class FruitHolder(itemView: View) : BindableViewHolder<Fruit>(itemView), View.On
     private var tvTitle: TextView? = null
     private var tvColor: TextView? = null
     private var tvWeight: TextView? = null
+    private var ivEdit: ImageView? = null
     private var fruitAdapterActionListener: FruitAdapterActionListener? = null
 
     override fun bindView(context: Context, position: Int, item: Fruit, actionListener: BindableViewHolder.ActionListener) {
@@ -20,9 +22,11 @@ class FruitHolder(itemView: View) : BindableViewHolder<Fruit>(itemView), View.On
         tvTitle = itemView.findViewById(R.id.tvFruitName)
         tvColor = itemView.findViewById(R.id.tvFruitColor)
         tvWeight = itemView.findViewById(R.id.tvFruitWeight)
+        ivEdit = itemView.findViewById(R.id.ivEdit)
         tvTitle?.text = item.name
         tvColor?.text = item.color
         tvWeight?.text = item.weight.toString()
+        ivEdit?.setOnClickListener { fruitAdapterActionListener?.onItemEdit(item) }
     }
 
     override fun onClick(v: View) {
@@ -31,5 +35,7 @@ class FruitHolder(itemView: View) : BindableViewHolder<Fruit>(itemView), View.On
         }
     }
 
-    interface FruitAdapterActionListener : BindableViewHolder.ActionListener
+    interface FruitAdapterActionListener : BindableViewHolder.ActionListener {
+        fun onItemEdit(item: Fruit)
+    }
 }
